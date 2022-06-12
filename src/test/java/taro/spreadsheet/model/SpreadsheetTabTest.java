@@ -48,7 +48,7 @@ public class SpreadsheetTabTest extends AbstractTest {
         assertThat(tab.getCell(2, 2).getValue())
                 .isEqualTo("three");
 
-        assertThat(tab.getCell(2, 2).getPoiCell().getCellStyle().getAlignmentEnum())
+        assertThat(tab.getCell(2, 2).getPoiCell().getCellStyle().getAlignment())
                 .isEqualTo(HorizontalAlignment.CENTER);
     }
 

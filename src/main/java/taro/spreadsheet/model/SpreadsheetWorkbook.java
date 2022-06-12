@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.usermodel.*;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -97,10 +98,10 @@ public class SpreadsheetWorkbook {
         if (style.getWrapText() != null) cellStyle.setWrapText(style.getWrapText());
         if (style.getIndention() != null) cellStyle.setIndention(checkedCast(style.getIndention()));
         if (style.getRotation() != null) cellStyle.setRotation(checkedCast(style.getRotation()));
-        if (style.getTopBorderColor() != null) cellStyle.setTopBorderColor(new XSSFColor(style.getTopBorderColor()));
-        if (style.getLeftBorderColor() != null) cellStyle.setLeftBorderColor(new XSSFColor(style.getLeftBorderColor()));
-        if (style.getBottomBorderColor() != null) cellStyle.setBottomBorderColor(new XSSFColor(style.getBottomBorderColor()));
-        if (style.getRightBorderColor() != null) cellStyle.setRightBorderColor(new XSSFColor(style.getRightBorderColor()));
+        if (style.getTopBorderColor() != null) cellStyle.setTopBorderColor(newXSSFColor(style.getTopBorderColor()));
+        if (style.getLeftBorderColor() != null) cellStyle.setLeftBorderColor(newXSSFColor(style.getLeftBorderColor()));
+        if (style.getBottomBorderColor() != null) cellStyle.setBottomBorderColor(newXSSFColor(style.getBottomBorderColor()));
+        if (style.getRightBorderColor() != null) cellStyle.setRightBorderColor(newXSSFColor(style.getRightBorderColor()));
 
         if (style.getFont() != null) {
             cellStyle.setFont(registerFont(style.getFont()));
@@ -108,7 +109,7 @@ public class SpreadsheetWorkbook {
 
         if (style.getBackgroundColor() != null) {
             cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            cellStyle.setFillForegroundColor(new XSSFColor(style.getBackgroundColor()));
+            cellStyle.setFillForegroundColor(newXSSFColor(style.getBackgroundColor()));
         }
 
         if (style.getDataFormatString() != null) {
@@ -118,6 +119,10 @@ public class SpreadsheetWorkbook {
         return cellStyle;
     }
 
+    private XSSFColor newXSSFColor(final Color color) {
+		return new XSSFColor(color, workbook.getStylesSource().getIndexedColors());
+    }
+    
     private Font registerFont(SpreadsheetFont font) {
         Font poiFont = fontMap.get(font);
         if (poiFont == null) {
